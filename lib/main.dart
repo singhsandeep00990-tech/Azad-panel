@@ -2,7 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+  try {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyBlOKdcXznSq7pTHgEsD_j54iSB1zHf0dU',
+        appId: '1:1091687452473:android:c6a875b4232d19b568a2e8',
+        messagingSenderId: '1091687452473',
+        projectId: 'azad-panel',
+        storageBucket: 'azad-panel.firebasestorage.app',
+      ),
+    );
+
+    runApp(const AzadPanelApp());
+  } catch (e) {
+    runApp(FirebaseErrorApp(error: e.toString()));
+  }
+}
 
 
 // =====================================================
