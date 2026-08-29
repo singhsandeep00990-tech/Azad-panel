@@ -1,0 +1,143 @@
+name: AZAD SMART PANEL APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ==========================================
+      # CHECKOUT
+      # ==========================================
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ==========================================
+      # FLUTTER
+      # ==========================================
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: stable
+
+      # ==========================================
+      # CREATE FRESH FLUTTER PROJECT
+      # ==========================================
+
+      - name: Create fresh Android project
+        run: |
+          flutter create \
+            --org com.azad \
+            --project-name smartpanel \
+            build_app
+
+      # ==========================================
+      # COPY PUBSPEC + MAIN DART
+      # ==========================================
+
+      - name: Copy Flutter app files
+        run: |
+          cp pubspec.yaml build_app/pubspec.yaml
+          cp lib/main.dart build_app/lib/main.dart
+
+      # ==========================================
+      # COPY AZAD LOGO
+      # ==========================================
+
+      - name: Copy AZAD logo
+        run: |
+          mkdir -p build_app/assets
+          cp assets/azad_logo.png build_app/assets/azad_logo.png
+
+      # ==========================================
+      # CHECK LOGO
+      # ==========================================
+
+      - name: Check AZAD logo
+        run: |
+          ls -la build_app/assets
+          test -f build_app/assets/azad_logo.png
+
+      # ==========================================
+      # FIREBASE CONFIG
+      # ==========================================
+
+      - name: Copy Firebase configuration
+        run: |
+          cp android/app/google-services.json \
+             build_app/android/app/google-services.json
+
+      # ==========================================
+      # MINIMUM ANDROID SDK
+      # ==========================================
+
+      - name: Set minimum Android SDK
+        working-directory: build_app
+        run: |
+          sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 23/' android/app/build.gradle
+
+      # ==========================================
+      # PACKAGE NAME
+      # ==========================================
+
+      - name: Set package name
+        working-directory: build_app
+        run: |
+          sed -i 's/applicationId "com.azad.smartpanel.build_app"/applicationId "com.azad.smartpanel"/' android/app/build.gradle
+          sed -i 's/applicationId = "com.azad.smartpanel.build_app"/applicationId = "com.azad.smartpanel"/' android/app/build.gradle
+
+      # ==========================================
+      # FIREBASE GOOGLE SERVICES
+      # ==========================================
+
+      - name: Enable Firebase Google Services
+        working-directory: build_app
+        run: |
+          sed -i '/plugins {/a\    id "com.google.gms.google-services" version "4.4.2" apply false' android/settings.gradle
+          sed -i '/plugins {/a\    id "com.google.gms.google-services"' android/app/build.gradle
+
+      # ==========================================
+      # GET DEPENDENCIES
+      # ==========================================
+
+      - name: Get dependencies
+        working-directory: build_app
+        run: |
+          flutter pub get
+
+      # ==========================================
+      # GENERATE AZAD APP ICON
+      # ==========================================
+
+      - name: Generate AZAD launcher icon
+        working-directory: build_app
+        run: |
+          dart run flutter_launcher_icons
+
+      # ==========================================
+      # BUILD APK
+      # ==========================================
+
+      - name: Build APK
+        working-directory: build_app
+        run: |
+          flutter build apk --release
+
+      # ==========================================
+      # UPLOAD APK
+      # ==========================================
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: azad-smart-panel-apk
+          path: build_app/build/app/outputs/flutter-apk/app-release.apk
