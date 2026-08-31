@@ -56,7 +56,7 @@ jobs:
       - name: Copy AZAD logo
         run: |
           mkdir -p build_app/assets
-          cp assets/azad_logo.png build_app/assets/azad_logo.png
+          cp assets/azad_logo-3.png build_app/assets/azad_logo-3.png
 
       # ==========================================
       # CHECK LOGO
