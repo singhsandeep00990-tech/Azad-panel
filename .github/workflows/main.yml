@@ -65,7 +65,7 @@ jobs:
       - name: Check AZAD logo
         run: |
           ls -la build_app/assets
-          test -f build_app/assets/azad_logo.png
+          test -f build_app/assets/azad_logo-3.png
 
       # ==========================================
       # FIREBASE CONFIG
