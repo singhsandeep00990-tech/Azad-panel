@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     child: Image.asset(
-                      'assets/azad_logo.png',
+                      'assets/azad_logo-3.png',
 
                       width: 210,
                       height: 210,
