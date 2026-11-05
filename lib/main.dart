@@ -46,7 +46,7 @@ class AzadSmartPanelApp extends StatelessWidget {
           backgroundColor: Color(0xFF171B22),
           foregroundColor: Colors.white,
         ),
-        cardTheme: const CardThemeData(
+        cardTheme: const CardTheme(
           color: Color(0xFF1A2029),
           elevation: 2,
         ),
