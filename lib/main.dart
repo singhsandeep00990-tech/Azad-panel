@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-const String firebaseApiKey = 'PASTE_YOUR_FIREBASE_API_KEY';
-const String firebaseAppId = 'PASTE_YOUR_FIREBASE_APP_ID';
+const String firebaseApiKey = 'AIzaSyBlOKdcXznSq7pTHgEsD_j54iSB1zHf0d';
+const String firebaseAppId = '1:1091687452473:android:c6a875b4232d19b568a2e8';
 
 const String projectId = 'azad-panel';
 const String databaseUrl = 'https://azad-panel-default-rtdb.firebaseio.com';
